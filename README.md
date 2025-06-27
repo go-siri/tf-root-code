@@ -9,6 +9,8 @@
 
 ## Solution Details
 - This repo contains recommended Terraform folder structure and sample code to deploy below Architecture in a GCP project
+
+
 ![Reference Architectiure](./images/architecture.png) 
 
 
@@ -190,11 +192,11 @@ In Main.tf create a new compute instance resource as below with replacing projec
     network    = google_compute_network.my_vpc.id
     subnetwork = google_compute_subnetwork.my_subnet.id
   }
-}```
+}
 
 4.3 Now lets import the client instance create earlier by using terraform import command
 ```terraform import google_compute_instance.my_client \
-projects/<YOUR_PROJECT_ID>/zones/us-central1-b/instances/my-client```
+projects/<YOUR_PROJECT_ID>/zones/us-central1-b/instances/my-client
 
 ####  Transfer Terraform state from local to remote (to Cloud storage bucket)  
 
