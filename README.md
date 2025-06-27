@@ -90,7 +90,7 @@ It should show 5 resources to be added, 0 to be changed & 0 to be destroyed
 
             }
         }
-###### 2.3 Continue editing main.tf to configure
+##### 2.3 Continue editing main.tf to configure
 
 ###### 2.3.1 **Local Variable** 
 Define a local variable gce_zone and set the value to "us-central1-b"
@@ -100,7 +100,7 @@ Create Compute Instance using following configuration
 - name: use global varaiable vm_name defined in variables.tf 
 - Zone: use local varialbe gce_zone defined above
 - image: debian-cloud/debian-11
-- machine_type: if is_amd = true then use use "n2d-standard-2" else use "n2-standard-2" (use conditional operator "?")[Conditional Expression](https://developer.hashicorp.com/terraform/language/expressions/conditionals)
+- machine_type: if is_amd = true then use use "n2d-standard-2" else use "n2-standard-2" (use conditional operator "?")   [Conditional Expression](https://developer.hashicorp.com/terraform/language/expressions/conditionals)
 
 ###### 2.3.3 **Count**
 Create Disks
@@ -138,7 +138,7 @@ Validate the resources that will be deployed using ` Terraform plan ` (8 to add,
 ###### 2.3.8 Deploy the resources
 Create the resources using ` Terraform apply -auto-approve `
 
-#### External Module Reference 
+#### 3. External Module Reference 
 
 ##### 3.1 Define module to create internal load balancer using the 
 - source module: "github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/net-lb-int"
@@ -160,26 +160,29 @@ Create the resources using ` Terraform apply -auto-approve `
 
 3.5 Deploy/Create the resources using `Terraform apply -auto-approve` 
 
-#### Create a Client VM using gcloud command
-4.1 Switch to cloud shell and create a client vm using the following gcloud command. 
+#### 4. Create a Client VM using gcloud command
+##### 4.1 Switch to cloud shell and create a client vm using the following gcloud command. 
 Replace project_id, vpc_id & subnet_id with your environment/project specific values
-        ```gcloud compute instances create my-client \
-        --project="<project_id>" \
-        --image-project=debian-cloud \
-        --image-family=debian-11 \
-        --machine-type=e2-micro \
-        --zone=us-central1-b \
-        --network="<vpc_id>" \
-        --subnet="<subnet_id>" \
-        --no-address \
-        --no-service-account \
-        --no-scopes```
+```
+gcloud compute instances create my-client \
+--project="<project_id>" \
+--image-project=debian-cloud \
+--image-family=debian-11 \
+--machine-type=e2-micro \
+--zone=us-central1-b \
+--network="<vpc_id>" \
+--subnet="<subnet_id>" \
+--no-address \
+--no-service-account \
+--no-scopes
+```
 
-4.2 Now that we created the client vm manually, lets see how we can update Terraform state file to include this information so we can use Terraform to manage this along with other resources
+##### 4.2 Now that we created the client vm manually, lets see how we can update Terraform state file to include this information so we can use Terraform to manage this along with other resources
 
 In Main.tf create a new compute instance resource as below with replacing project specfic values as needed
 
-```resource "google_compute_instance" "my_client" {
+```
+resource "google_compute_instance" "my_client" {
   name         = "my-client"
   project      = google_compute_network.my_vpc.project
   machine_type = "e2-micro"
@@ -195,36 +198,47 @@ In Main.tf create a new compute instance resource as below with replacing projec
     subnetwork = google_compute_subnetwork.my_subnet.id
   }
 }
-
-4.3 Now lets import the client instance create earlier by using terraform import command
-```terraform import google_compute_instance.my_client \
+```
+##### 4.3 Now lets import the client instance create earlier by using terraform import command
+```
+terraform import google_compute_instance.my_client \
 projects/<YOUR_PROJECT_ID>/zones/us-central1-b/instances/my-client
+```
+####  5. Transfer Terraform state from local to remote (to Cloud storage bucket)  
 
-####  Transfer Terraform state from local to remote (to Cloud storage bucket)  
+##### 5.1 Create a GCE bucket
+Use resource 'google_storage_bucket'
 
-5.1 Create a GCE bucket
- Use resource 'google_storage_bucket'
+##### 5.2 Update backend.tf with backend configuration pointing to created storage bucket
+e.g. 
+```
+terraform {
+    backend "gcs" {
+    bucket = "YOUR_BUCKET_NAME"
+    prefix = "terraform/state"
+    }
+}
+```
 
-5.2 Update backend.tf with backend configuration pointing to created storage bucket
-        e.g. ```terraform {
-            backend "gcs" {
-            bucket = "YOUR_BUCKET_NAME"
-            prefix = "terraform/state"
-            }
-        }```
+##### 5.3 Finally transfer local state to storage bucket by running command 
+```
+terraform init [-migrate-state]
+```
 
-5.3 Finally transfer local state to storage bucket by running command ```terraform init [-migrate-state]```
+##### 5.4 Verify the new state with command 
+```
+cat .terraform/terraform.tfstate
+```
+    
+Verify for your cloud storage bucket name in the output	
 
-5.4 Verify the new state with command ```cat .terraform/terraform.tfstate```
-    Verify for your cloud storage bucket name in the output	
+    "backend": {
+        "type": "gcs",
+         "config": { ...
+         "bucket": "YOUR_BUCKET_NAME",
 
-        "backend": {
-            "type": "gcs",
-            "config": { ...
-            "bucket": "YOUR_BUCKET_NAME",
+#### 6. Optionally try the below steps to complete the lab
 
-#### Optionally try the below steps to complete the lab
+##### 6.1 Migrate TFstate from remote to local
 
-6.1 Migrate TFstate from remote to local
-
-6.2 Destroy all resources created using ```terraform destroy```
+##### 6.2 Destroy all resources created using ```terraform destroy```
