@@ -15,7 +15,7 @@
 ## Terraform code & Resource deployment
 ### Set-up Instructions
 - Login to GCP project
--  ![Activate CloudShell](./images/cloudshellactivate.png) 
+  ![Activate CloudShell](./images/cloudshellactivate.png) 
 - clone the github repo using `git clone https://github.com/go-siri/tf-root.git`
 - Swtich to root directory once cloned using `cd tf-root`
 - Open Cloud Shell editor in a new window by clicking on Open Editor button as shown below 
@@ -29,27 +29,31 @@
         `Terraform init`
 
 #### Define GCP resources and their configuration
- 1. Update **main.tf** file with the code to create the following components
-     1.1 Create a VPC "my-vpc" in your GCP project [VPC]https://registry.terraform.io/providers/hashicorp/google/3.17.0/docs/resources/compute_network
-     1.2 Create a Subnet "my-subnet" in "my-vpc" [Subnet Resource] https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_subnetwork
-     1.3 Create a firewall rule to allow http traffic with following configuration [Firewall Resource]https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall
+##### 1. Update **main.tf** file with the code to create the following components
+1.1 Create a VPC "my-vpc" in your GCP project [VPC](https://registry.terraform.io/providers/hashicorp/google/3.17.0/docs/resources/compute_network)
+     
+1.2 Create a Subnet "my-subnet" in "my-vpc" [Subnet Resource](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_subnetwork)
+     
+1.3 Create a firewall rule to allow http traffic with following configuration [Firewall Resource](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall)
 
                 - port: 80
                 - protocol: http
                 - source range: 192.168.0.0/24
                 - target_tags = ["www"]
 
-     1.4 Create a firewall rule to allow iap tcp forwarding with below configuration
+1.4 Create a firewall rule to allow iap tcp forwarding with below configuration
                - port: 22
                - Source IP range: 35.235.240.0/20
 
-     1.5 Create a compute instance with following configuration [Goolge compute]https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_instance
+1.5 Create a compute instance with following configuration [Goolge compute](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_instance)
                - name: instance1
                - machine type: "e2-micro"
                - zone: us-central1-b"
                - image: debian-cloud/debian-11
-     1.6 Run `terraform plan` and validate the output. It should show 5 resources to be added, 0 to be changed & 0 to be destroyed
-     1.7 Run ` terraform apply` to deploy all the above resources
+               
+1.6 Run `terraform plan` and validate the output. It should show 5 resources to be added, 0 to be changed & 0 to be destroyed
+
+1.7 Run ` terraform apply` to deploy all the above resources
 
 #### Global and Local Variables, Loops (count & for_each, for), Output & Conditional Operator "?"
     2.1 Define following variables in variables.tf [Variables]https://developer.hashicorp.com/terraform/language/expressions/types
