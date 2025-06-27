@@ -73,24 +73,23 @@ It should show 5 resources to be added, 0 to be changed & 0 to be destroyed
 - **web_instances** type: map/object, description: contains a list of webserver names as keys (e.g. web-server1, web-server2, web-server3) & associated machine_types (e.g.e2-medium, e2-small, e2-medium)
 
 #### 2.2 Update terraform.tfvars file and provide values to some of the above variables
-- vm_name = vm-instance2
-- is_amd = true
-- disk_count = 3
 ```
-- web_instances = {
-            web-server1 = {
-            machine_type = "e2-medium"
-            
-            }
-            web-server2 = {
-            machine_type = "e2-small"
-
-            }
-            web-server3 = {
-            machine_type = "e2-medium"
-
-            }
-        }
+vm_name = vm-instance2
+is_amd = true
+disk_count = 3
+web_instances = {
+    web-server1 = {
+    machine_type = "e2-medium"
+    }
+    
+    web-server2 = {
+    machine_type = "e2-small"
+    }
+    
+    web-server3 = {
+    machine_type = "e2-medium"
+    }
+}
 ```
 #### 2.3 Continue editing main.tf to configure
 
@@ -233,11 +232,11 @@ cat .terraform/terraform.tfstate
 ```
     
 Verify for your cloud storage bucket name in the output	
-
-    "backend": {
-        "type": "gcs",
-         "config": { ...
-         "bucket": "YOUR_BUCKET_NAME",
+"backend": {
+    "type": "gcs",
+    "config": { ...
+    "bucket": "YOUR_BUCKET_NAME",
+    ......
 
 ### 6. Optionally try the below steps to complete the lab
 
