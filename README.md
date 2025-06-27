@@ -14,19 +14,18 @@
 
 ## Terraform code & Resource deployment
 ### Set-up Instructions
-    - Login to GCP project
-    -  ![Activate CloudShell](./images/cloudshellactivate.png) 
-    - clone the github repo using `git clone https://github.com/go-siri/tf-root.git`
-    - Swtich to root directory once cloned using `cd tf-root`
-    - Open Cloud Shell editor in a new window by clicking on Open Editor button as shown below 
-    ![Cloud Shell Editor](./images/cloudeditor.png) 
+- Login to GCP project
+-  ![Activate CloudShell](./images/cloudshellactivate.png) 
+- clone the github repo using `git clone https://github.com/go-siri/tf-root.git`
+- Swtich to root directory once cloned using `cd tf-root`
+- Open Cloud Shell editor in a new window by clicking on Open Editor button as shown below 
+![Cloud Shell Editor](./images/cloudeditor.png) 
 
 #### Initialize working directory and install required providers
-    - Update **providers.tf** file with the code to define Google as required provider
-        - [Provider Requirements] https://developer.hashicorp.com/terraform/language/providers/requirements
-        - [Google Provider] https://registry.terraform.io/providers/hashicorp/google/latest/docs
- 
-    - Initialize the directory to install all required providers using command
+- Update **providers.tf** file with the code to define Google as required provider
+- [Provider Requirements] https://developer.hashicorp.com/terraform/language/providers/requirements
+- [Google Provider] https://registry.terraform.io/providers/hashicorp/google/latest/docs
+- Initialize the directory to install all required providers using command
         `Terraform init`
 
 #### Define GCP resources and their configuration
