@@ -9,12 +9,23 @@
 
 # Solution Details
 - This repo contains recommended Terraform folder structure and sample code to deploy below Architecture in a GCP project
-
+<ins> Recommended approach: Try to </ins>
 
 ![Reference Architectiure](./images/architecture.png) 
 
 
 # Terraform Code & Resource deployment
+## Code-repos that we will use 
+### 1. tf-root
+This repository will have recommended terraform file structure but no terraform code
+Clone this repo during the solution development and build the code through the development excersise
+*** `https://github.com/go-siri/tf-root.git` ***
+
+### 2. tf-root-code 
+This is the repo with all code references and instructions
+Use this repo for code reference (
+For best learning, recommned to try to write your own code and use this repo for validation only
+*** `https://github.com/go-siri/tf-root-code.git` *** 
 ## Set-up Instructions
 - Login to GCP project
 
@@ -27,6 +38,11 @@
 ![Cloud Shell Editor](./images/cloudeditor.png) 
 
 ## Initialize working directory and install required providers
+- Create & Downlaod Terraform root module structure 
+```
+git clone https://github.com/go-siri/tf-root.git
+```
+<ins> This repository will downlaod all the files to start with. These files are empty and doesnt not have any code. </ins>
 
 - Update **providers.tf** file with the code to define Google as required provider
 - [Provider Requirements] https://developer.hashicorp.com/terraform/language/providers/requirements
